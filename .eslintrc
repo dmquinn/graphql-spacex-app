@@ -41,6 +41,7 @@
     "node": true
   },
   "rules": {
+    
     "constructor-super": "error",
     "dot-notation": [
       "error",
@@ -62,7 +63,7 @@
     "import/no-mutable-exports": "error",
     "import/no-named-as-default-member": "error",
     "import/no-unresolved": "error",
-    "linebreak-style": "error",
+    "linebreak-style": ["error","windows"],
     "no-array-constructor": "error",
     "no-class-assign": "error",
     "no-console": [
@@ -126,8 +127,12 @@
     "prefer-rest-params": "error",
     "prefer-spread": "error",
     "prefer-template": "error",
-    "prettier/prettier": "error",
-    "radix": "error",
+"prettier/prettier": [
+  "error",
+  {
+    "endOfLine": "auto"
+  }
+],    "radix": "error",
     "react/jsx-boolean-value": [
       "error",
       "never"
@@ -171,6 +176,7 @@
       "rules": {
         "import/no-unresolved": "off"
       }
+      
     }
   ]
 }

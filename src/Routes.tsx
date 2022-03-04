@@ -5,6 +5,8 @@ import Login from './pages/auth/Login';
 import AuthLayout from './pages/AuthLayout';
 import EntityDetail from './pages/basic/EntityDetail';
 import EntityOverview from './pages/basic/EntityOverview';
+import RocketDashboard from './pages/basic/RocketDashboard';
+
 import Index from './pages/basic/Index';
 import NotFound from './pages/basic/NotFound';
 import BasicLayout from './pages/BasicLayout';
@@ -12,6 +14,7 @@ import BasicLayout from './pages/BasicLayout';
 export const LOGIN_ROUTE = '/auth/login';
 export const ENTITY_OVERVIEW_ROUTE = '/entity';
 export const ENTITY_DETAIL_ROUTE = '/entity/:id';
+export const ROCKET_DASHBOARD_ROUTE = '/rocket-dashboard';
 
 const routeObjects: RouteObject[] = [
   {
@@ -30,6 +33,8 @@ const routeObjects: RouteObject[] = [
       { index: true, element: <Index /> },
       { path: ENTITY_OVERVIEW_ROUTE, element: <EntityOverview /> },
       { path: ENTITY_DETAIL_ROUTE, element: <EntityDetail /> },
+      { path: ROCKET_DASHBOARD_ROUTE, element: <RocketDashboard /> },
+
       { path: '*', element: <NotFound /> },
     ],
   },

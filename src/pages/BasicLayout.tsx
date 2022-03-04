@@ -1,8 +1,8 @@
-import { DashboardOutlined } from '@ant-design/icons';
+import { DashboardOutlined, RocketOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { FC } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { ENTITY_OVERVIEW_ROUTE } from '../Routes';
+import { ENTITY_OVERVIEW_ROUTE, ROCKET_DASHBOARD_ROUTE } from '../Routes';
 
 const BasicLayout: FC = () => (
   <Layout className="!h-screen">
@@ -13,6 +13,9 @@ const BasicLayout: FC = () => (
       <Menu theme="dark" selectedKeys={[]}>
         <Menu.Item icon={<DashboardOutlined />}>
           <Link to={ENTITY_OVERVIEW_ROUTE}>Entity</Link>
+        </Menu.Item>
+        <Menu.Item icon={<RocketOutlined />}>
+          <Link to={ROCKET_DASHBOARD_ROUTE}>Rocket Dashboard</Link>
         </Menu.Item>
       </Menu>
     </Layout.Sider>
