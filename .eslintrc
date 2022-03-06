@@ -41,7 +41,6 @@
     "node": true
   },
   "rules": {
-    
     "constructor-super": "error",
     "dot-notation": [
       "error",
@@ -174,7 +173,7 @@
     {
       "files": "**/test/**/*.{js,jsx,ts,tsx}",
       "rules": {
-        "import/no-unresolved": "off"
+        "import/no-unresolved": "off",
       }
       
     }
