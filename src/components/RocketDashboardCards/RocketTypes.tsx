@@ -2,31 +2,30 @@ import { Card, Checkbox, Select } from 'antd';
 import { FC } from 'react';
 import { Pie } from '@ant-design/plots';
 
-const RocketTypes: FC = () => {
-  const { Option, OptGroup } = Select;
+type RocketProps = {
+  rockets: Array<any>;
+};
 
-  const data = [
-    {
-      type: 'Falcon 1',
-      value: 27,
-    },
-    {
-      type: 'Falcon 1e',
-      value: 25,
-    },
-    {
-      type: 'Falcon 9 v1.1',
-      value: 18,
-    },
-    {
-      type: 'Falcon 9 Full Thrust',
-      value: 15,
-    },
-    {
-      type: 'Falcon Heavy',
-      value: 10,
-    },
-  ];
+const RocketTypes: FC<RocketProps> = ({ rockets }) => {
+  const temArr = [];
+  rockets.map((item) => {
+    temArr.push(item.rocket.rocket_type);
+  });
+  const rocketTypesObj = temArr.reduce(
+    // eslint-disable-next-line no-sequences
+    (acc, curr) => (acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc),
+    {}
+  );
+
+  const data = [];
+  for (const key in rocketTypesObj) {
+    data.push({ type: key, value: rocketTypesObj[key] });
+  }
+
+  // eslint-disable-next-line no-console
+  console.log('RTO', data);
+
+  const { Option, OptGroup } = Select;
   const config = {
     appendPadding: 10,
     data,
@@ -53,7 +52,7 @@ const RocketTypes: FC = () => {
       },
     ],
     statistic: {
-      title: false,
+      title: true,
       content: {
         style: {
           whiteSpace: 'pre-wrap',
@@ -66,28 +65,25 @@ const RocketTypes: FC = () => {
   };
   return (
     <>
-      <Card className="justify-center">
+      <Card className="text-center">
         <Pie {...config} />
         <>
           <Select placeholder="Select Rocket Types" style={{ width: 180 }}>
             <OptGroup label="Rocket Types">
               <Option value="Falcon 1">
-                <Checkbox>Falcon 1</Checkbox>
+                <Checkbox>v1.1</Checkbox>
               </Option>
               <Option value="Falcon 1e">
-                <Checkbox>Falcon 1e</Checkbox>
+                <Checkbox>FT</Checkbox>
               </Option>
               <Option value="Falcon 1e">
-                <Checkbox>Falcon 1e</Checkbox>
+                <Checkbox>Merlin A</Checkbox>
               </Option>
               <Option value="Falcon 9 v1.1">
-                <Checkbox>Falcon 9 v1.1</Checkbox>
+                <Checkbox>v1.0</Checkbox>
               </Option>
               <Option value="Falcon 9 Full Thrust">
-                <Checkbox>Falcon 9 Full Thrust</Checkbox>
-              </Option>
-              <Option value="Falcon Heavy">
-                <Checkbox>Falcon Heavy</Checkbox>
+                <Checkbox>Merlin C</Checkbox>
               </Option>
             </OptGroup>
           </Select>
