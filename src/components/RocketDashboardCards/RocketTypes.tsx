@@ -7,11 +7,11 @@ type RocketProps = {
 };
 
 const RocketTypes: FC<RocketProps> = ({ rockets }) => {
-  const temArr = [];
+  const rocketTypesArray = [];
   rockets.map((item) => {
-    temArr.push(item.rocket.rocket_type);
+    rocketTypesArray.push(item.rocket.rocket_type);
   });
-  const rocketTypesObj = temArr.reduce(
+  const rocketTypesObj = rocketTypesArray.reduce(
     // eslint-disable-next-line no-sequences
     (acc, curr) => (acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc),
     {}
@@ -22,9 +22,6 @@ const RocketTypes: FC<RocketProps> = ({ rockets }) => {
     data.push({ type: key, value: rocketTypesObj[key] });
   }
 
-  // eslint-disable-next-line no-console
-  console.log('RTO', data);
-
   const { Option, OptGroup } = Select;
   const config = {
     appendPadding: 10,
@@ -33,7 +30,7 @@ const RocketTypes: FC<RocketProps> = ({ rockets }) => {
     color: ['#062c43', '#054569', '#5591a9', '#9ccddc', '#ced7e0'],
     colorField: 'type',
     radius: 1,
-    innerRadius: 0.6,
+    innerRadius: 0.5,
     label: {
       type: 'inner',
       offset: '-50%',

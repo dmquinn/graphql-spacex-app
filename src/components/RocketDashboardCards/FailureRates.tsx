@@ -1,67 +1,52 @@
 import { FC } from 'react';
 import { Column } from '@ant-design/plots';
 
-const data = [
-  {
-    rocket: 'Falcon 1',
-    value: 1,
-    type: 'Failure',
-  },
-  {
-    rocket: 'Falcon 1e',
-    value: 1,
-    type: 'Failure',
-  },
-  {
-    rocket: 'Falcon 9 v1.1',
-    value: 2,
-    type: 'Failure',
-  },
-  {
-    rocket: 'Falcon 9 Full Throttle',
-    value: 1,
-    type: 'Failure',
-  },
-  {
-    rocket: 'Falcon 9 Heavy',
-    value: 3,
-    type: 'Failure',
-  },
-  {
-    rocket: 'Falcon 1',
-    value: 3,
-    type: 'Success',
-  },
-  {
-    rocket: 'Falcon 1e',
-    value: 9,
-    type: 'Success',
-  },
-  {
-    rocket: 'Falcon 9 v1.1',
-    value: 3.5,
-    type: 'Success',
-  },
-  {
-    rocket: 'Falcon 9 Full Throttle',
-    value: 5,
-    type: 'Success',
-  },
-  {
-    rocket: 'Falcon 9 Heavy',
-    value: 4.9,
-    type: 'Success',
-  },
-];
+type RocketProps = {
+  launches: Array<any>;
+};
+const FailureRates: FC<RocketProps> = ({ launches }) => {
+  const overallFailureRate =
+    (launches.filter((item) => item.launch_success === false).length * 100) /
+    launches.length;
+  // current failure rate approximated by last 5 years
+  const currentFailureRate =
+    (launches.filter(
+      (item) =>
+        item.launch_success === false && parseInt(item.launch_year, 10) > 2015
+    ).length *
+      100) /
+    launches.length;
 
-const FailureRates: FC = () => {
+  const data = [
+    {
+      timeline: 'overall',
+      value: 100 - overallFailureRate,
+      type: 'Success %',
+    },
+    {
+      timeline: 'current',
+      value: 100 - currentFailureRate,
+      type: 'Success %',
+    },
+    {
+      timeline: 'overall',
+      value: overallFailureRate,
+      type: 'Failure %',
+    },
+    {
+      timeline: 'current',
+      value: currentFailureRate,
+      type: 'Failure %',
+    },
+  ];
   const config = {
-    data,
+    data: data.reverse(),
     isStack: true,
-    xField: 'rocket',
     yField: 'value',
+    xField: 'timeline',
     seriesField: 'type',
     color: ['#062c43', '#9ccddc'],
+
     label: {
       layout: [
         {
@@ -76,7 +61,6 @@ const FailureRates: FC = () => {
       ],
     },
   };
-
   return <Column {...config} />;
 };
 export default FailureRates;

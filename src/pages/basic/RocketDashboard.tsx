@@ -6,9 +6,12 @@ import PayloadPerMonth from '../../components/RocketDashboardCards/PayloadPerMon
 
 const RocketDashboard: FC = () => {
   const [data, setData] = useState<any>([]);
+  const [launches, setLaunches] = useState<any>([]);
+
   const loadRocketData = async () => {
     const rocketData = await Rockets.getRockets();
     rocketData.launches.length && setData(rocketData.launches);
+    rocketData.launchesPast.length && setLaunches(rocketData.launchesPast);
   };
   useEffect(() => {
     loadRocketData();
@@ -18,8 +21,8 @@ const RocketDashboard: FC = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-10">
       <RocketTypes rockets={data} />
-      <FailureRates />
-      <PayloadPerMonth />
+      <FailureRates launches={launches} />
+      <PayloadPerMonth payloads={launches} />
     </div>
   );
 };

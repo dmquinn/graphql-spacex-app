@@ -1,68 +1,55 @@
-import { DualAxes } from '@ant-design/plots';
+import { Line } from '@ant-design/plots';
+import { FC } from 'react';
+import { monthDifference } from '../../helperFunctions';
 
-const PayloadPerMonth = () => {
-  const data = [
-    {
-      year: '1991',
-      value: 3,
-      count: 10,
-    },
-    {
-      year: '1992',
-      value: 4,
-      count: 4,
-    },
-    {
-      year: '1993',
-      value: 3.5,
-      count: 5,
-    },
-    {
-      year: '1994',
-      value: 5,
-      count: 5,
-    },
-    {
-      year: '1995',
-      value: 4.9,
-      count: 4.9,
-    },
-    {
-      year: '1996',
-      value: 6,
-      count: 35,
-    },
-    {
-      year: '1997',
-      value: 7,
-      count: 7,
-    },
-    {
-      year: '1998',
-      value: 9,
-      count: 1,
-    },
-    {
-      year: '1999',
-      value: 13,
-      count: 20,
-    },
-  ];
+type PayloadProps = {
+  payloads: any;
+};
+const PayloadPerMonth: FC<PayloadProps> = ({ payloads }) => {
+  // const today = new Date();
+
+  const dateArray = payloads.filter((item) => {
+    return (
+      monthDifference(
+        // finding last 12 months
+        new Date(item.launch_date_local),
+        new Date('2020-11-21T09:17:00-08:00')
+      ) < 13
+    );
+  });
+  const constructArr: any[] = [];
+  let payloadAmount = 0;
+  dateArray.map((item, i) => {
+    if (
+      monthDifference(
+        new Date(dateArray[i - 1]?.launch_date_local),
+        new Date(item.launch_date_local)
+      ) === -1
+    ) {
+      constructArr.push({
+        month: item.launch_date_local.slice(0, 7), // slice tidying date format
+        value: payloadAmount,
+      });
+      payloadAmount = item.rocket.second_stage.payloads[0].payload_mass_kg;
+    } else {
+      payloadAmount =
+        payloadAmount + item.rocket.second_stage.payloads[0].payload_mass_kg;
+    }
+  });
+  // eslint-disable-next-line no-console
+  const data = constructArr;
+  // eslint-disable-next-line no-console
+  console.log(payloads, 'dates', dateArray);
   const config = {
-    data: [data, data],
-    xField: 'year',
-    yField: ['value', 'count'],
-    geometryOptions: [
-      {
-        geometry: 'line',
-        color: '#5B8FF9',
-      },
-      {
-        geometry: 'line',
-        color: '#5AD8A6',
-      },
-    ],
+    data,
+    xField: 'month',
+    yField: 'value',
+    xAxis: {
+      // type: 'timeCat',
+      tickCount: 5,
+    },
   };
-  return <DualAxes {...config} />;
+
+  return <Line {...config} />;
 };
 export default PayloadPerMonth;
