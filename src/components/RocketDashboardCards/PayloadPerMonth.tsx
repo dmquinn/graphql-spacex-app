@@ -6,10 +6,11 @@ type PayloadProps = {
   payloads: any;
 };
 const PayloadPerMonth: FC<PayloadProps> = ({ payloads }) => {
-  // const today = new Date();
+  // For this component, I have opted to look at the 12 month period before 2020.11.2021, as the SpaceX API has not been updated in the past 12 months.
 
-  const dateArray = payloads.filter((item) => {
+  const dateArray = payloads.filter((item, i) => {
     return (
+      i !== 0 &&
       monthDifference(
         // finding last 12 months
         new Date(item.launch_date_local),
@@ -36,17 +37,15 @@ const PayloadPerMonth: FC<PayloadProps> = ({ payloads }) => {
         payloadAmount + item.rocket.second_stage.payloads[0].payload_mass_kg;
     }
   });
-  // eslint-disable-next-line no-console
   const data = constructArr;
-  // eslint-disable-next-line no-console
-  console.log(payloads, 'dates', dateArray);
+
   const config = {
     data,
     xField: 'month',
     yField: 'value',
     xAxis: {
-      // type: 'timeCat',
-      tickCount: 5,
+      type: 'timeCat',
+      tickCount: 1,
     },
   };
 

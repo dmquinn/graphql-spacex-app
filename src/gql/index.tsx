@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { getRockets } from './queries';
+import { useGetLaunchesQuery } from '../generated/graphql';
 
 export const apolloClient = new ApolloClient({
   uri: 'https://api.spacex.land/graphql',
@@ -7,10 +8,9 @@ export const apolloClient = new ApolloClient({
 });
 
 class SpaceService {
-  async getRockets(limit = 10) {
-    const response = await apolloClient.query({
+  async getRockets() {
+    const response = await useGetLaunchesQuery({
       query: getRockets,
-      variables: { limit },
     });
     if (!response || !response.data) throw new Error('No Rocket Data!');
     return response.data;

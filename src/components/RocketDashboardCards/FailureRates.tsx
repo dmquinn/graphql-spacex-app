@@ -8,7 +8,7 @@ const FailureRates: FC<RocketProps> = ({ launches }) => {
   const overallFailureRate =
     (launches.filter((item) => item.launch_success === false).length * 100) /
     launches.length;
-  // current failure rate approximated by last 5 years
+  // current failure rate approximated by years since 2015
   const currentFailureRate =
     (launches.filter(
       (item) =>
@@ -20,22 +20,22 @@ const FailureRates: FC<RocketProps> = ({ launches }) => {
   const data = [
     {
       timeline: 'overall',
-      value: 100 - overallFailureRate,
+      value: (100 - overallFailureRate).toFixed(3),
       type: 'Success %',
     },
     {
       timeline: 'current',
-      value: 100 - currentFailureRate,
+      value: (100 - currentFailureRate).toFixed(3),
       type: 'Success %',
     },
     {
       timeline: 'overall',
-      value: overallFailureRate,
+      value: overallFailureRate.toFixed(3),
       type: 'Failure %',
     },
     {
       timeline: 'current',
-      value: currentFailureRate,
+      value: currentFailureRate.toFixed(3),
       type: 'Failure %',
     },
   ];
@@ -44,17 +44,16 @@ const FailureRates: FC<RocketProps> = ({ launches }) => {
     isStack: true,
     yField: 'value',
     xField: 'timeline',
-    seriesField: 'type',
+    // seriesField: 'type',
     color: ['#062c43', '#9ccddc'],
-
     label: {
       layout: [
         {
           type: 'interval-adjust-position',
         },
-        {
-          type: 'interval-hide-overlap',
-        },
+        // {
+        //   type: 'interval-hide-overlap',
+        // },
         {
           type: 'adjust-color',
         },

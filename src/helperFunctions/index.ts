@@ -1,4 +1,4 @@
-export const monthDifference = (dateFrom, dateTo) => {
+export const monthDifference = (dateFrom: Date, dateTo: Date) => {
   return (
     dateTo.getMonth() -
     dateFrom.getMonth() +
