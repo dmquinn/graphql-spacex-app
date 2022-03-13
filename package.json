@@ -3,27 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ant-design/charts": "^1.3.5",
     "@ant-design/icons": "^4.7.0",
+    "@ant-design/plots": "^1.0.9",
     "@apollo/client": "^3.5.10",
-    "@apollo/react-hooks": "^4.0.0",
-    "@graphql-codegen/typescript": "^2.4.5",
-    "@graphql-codegen/typescript-operations": "^2.3.2",
-    "@graphql-codegen/typescript-react-query": "^3.5.5",
     "antd": "^4.18.6",
     "classnames": "^2.3.1",
-    "graphql": "^15.8.0",
+    "graphql-tag": "^2.12.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1",
     "typescript": "^4.5.5"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^2.6.2",
-    "@graphql-codegen/introspection": "2.1.1",
-    "@graphql-codegen/typescript": "2.4.5",
-    "@graphql-codegen/typescript-operations": "2.3.2",
-    "@graphql-codegen/typescript-react-apollo": "3.2.8",
     "@types/node": "^16.11.22",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
@@ -37,7 +28,6 @@
     "less": "^4.1.2",
     "less-watch-compiler": "^1.16.3",
     "postcss": "^8.4.6",
-    "prettier": "^2.5.1",
     "react-scripts": "^5.0.0",
     "serve": "^13.0.2",
     "tailwindcss": "^3.0.19"
@@ -47,18 +37,13 @@
     "build": "react-scripts build",
     "serve": "npm run build && serve -s build -l 3000",
     "lint:eslint": "eslint . --ext js,jsx,ts,tsx",
-    "lint:eslint:fix": "npm run lint:eslint -- --fix",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "lint:eslint:fix": "npm run lint:eslint -- --fix"
   },
   "eslintConfig": {
     "extends": [
       "react-app"
     ]
   },
-  "peerDependencies": {
-   "react": ">=16.8.0",
-   "react-dom": ">=16.8.0"
-},
   "browserslist": {
     "production": [
       ">0.2%",

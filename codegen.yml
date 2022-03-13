@@ -1,4 +1,5 @@
 overwrite: true
+withHooks: true
 schema: 'https://api.spacex.land/graphql/'
 documents: './src/**/*.tsx'
 generates:

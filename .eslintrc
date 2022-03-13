@@ -30,6 +30,17 @@
       ".jsx",
       ".tsx"
     ],
+    "node": {
+        "extensions": [
+          ".js",
+          ".ts",
+          ".jsx",
+          ".tsx"
+        ],
+        "paths": [
+          "./src"
+      ]
+    },
     "react": {
       "version": "detect"
     }

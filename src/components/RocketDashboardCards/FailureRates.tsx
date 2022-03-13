@@ -20,22 +20,12 @@ const FailureRates: FC<RocketProps> = ({ launches }) => {
   const data = [
     {
       timeline: 'overall',
-      value: (100 - overallFailureRate).toFixed(3),
-      type: 'Success %',
-    },
-    {
-      timeline: 'current',
-      value: (100 - currentFailureRate).toFixed(3),
-      type: 'Success %',
-    },
-    {
-      timeline: 'overall',
-      value: overallFailureRate.toFixed(3),
+      value: overallFailureRate,
       type: 'Failure %',
     },
     {
       timeline: 'current',
-      value: currentFailureRate.toFixed(3),
+      value: currentFailureRate,
       type: 'Failure %',
     },
   ];
@@ -44,21 +34,19 @@ const FailureRates: FC<RocketProps> = ({ launches }) => {
     isStack: true,
     yField: 'value',
     xField: 'timeline',
-    // seriesField: 'type',
-    color: ['#062c43', '#9ccddc'],
+    padding: 8,
     label: {
       layout: [
         {
           type: 'interval-adjust-position',
         },
-        // {
-        //   type: 'interval-hide-overlap',
-        // },
         {
-          type: 'adjust-color',
+          type: 'interval-hide-overlap',
         },
       ],
     },
+    colorField: 'type', // or seriesField in some cases
+    color: ['#d62728', '#2ca02c', '#000000'],
   };
   return <Column {...config} />;
 };

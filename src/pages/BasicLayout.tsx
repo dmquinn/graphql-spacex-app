@@ -11,10 +11,10 @@ const BasicLayout: FC = () => (
         <div className="m-4 h-12 bg-gray-400/50" />
       </Link>
       <Menu theme="dark" selectedKeys={[]}>
-        <Menu.Item icon={<DashboardOutlined />}>
+        <Menu.Item icon={<DashboardOutlined />} key="a1">
           <Link to={ENTITY_OVERVIEW_ROUTE}>Entity</Link>
         </Menu.Item>
-        <Menu.Item icon={<RocketOutlined />}>
+        <Menu.Item icon={<RocketOutlined />} key="a2">
           <Link to={ROCKET_DASHBOARD_ROUTE}>Rocket Dashboard</Link>
         </Menu.Item>
       </Menu>

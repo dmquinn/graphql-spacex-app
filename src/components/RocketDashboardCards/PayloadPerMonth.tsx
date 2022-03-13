@@ -45,7 +45,7 @@ const PayloadPerMonth: FC<PayloadProps> = ({ payloads }) => {
     yField: 'value',
     xAxis: {
       type: 'timeCat',
-      tickCount: 1,
+      tickCount: 12,
     },
   };
 
