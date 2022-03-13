@@ -1,49 +1,60 @@
 import { Card, Checkbox, Select } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { Pie } from '@ant-design/plots';
+import { CheckedType, DisplayDataType } from '../../types';
+import { GetLaunchesQuery } from '../../generated/graphql';
 
 type RocketProps = {
-  rockets: Array<any>;
+  rockets: GetLaunchesQuery['launches'];
 };
-
+export interface IRocketTypesObject {
+  item: number;
+  num: number;
+}
 const RocketTypes: FC<RocketProps> = ({ rockets }) => {
-  const [isChecked, setIsChecked] = useState({
+  const [isChecked, setIsChecked] = useState<CheckedType>({
     'v1.1': true,
     FT: true,
     'Merlin A': true,
     'v1.0': true,
     'Merlin C': true,
   });
-  const [finalData, setFinalData] = useState([]);
-  const rocketTypesArray = [];
+  const [displayData, setDisplayData] = useState<DisplayDataType[]>([]);
+  const rocketTypesArray: string[] = [];
 
   const filterRocketData = async () => {
     const dataA = [];
-    const initArray = [];
+    const initArray: GetLaunchesQuery['launches'] = []; // unsure of type
 
-    await Object.keys(isChecked)
+    Object.keys(isChecked)
       .filter((item) => {
         if (isChecked[item] === true) {
           return item;
         }
       })
       .map((x) => {
-        const output = rockets.filter((rocket) => {
-          if (rocket.rocket.rocket_type === x) {
-            return rocket;
+        const output: GetLaunchesQuery['launches'] = rockets?.filter((item) => {
+          if (item?.rocket?.rocket_type === x) {
+            return item;
           }
         });
 
-        initArray.push(...output);
+        output?.length && initArray.push(...output);
       });
     if (initArray.length) {
       initArray.map((item) => {
-        rocketTypesArray.push(item.rocket.rocket_type);
+        if (item?.rocket?.rocket_type) {
+          rocketTypesArray.push(item?.rocket?.rocket_type);
+        }
       });
-      const rocketTypesObj = rocketTypesArray.reduce(
-        // eslint-disable-next-line no-sequences
-        (acc, curr) => (acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc), // counting occurrences of rocket type in array
-
+      // counting occurrences of rocket type in array
+      const rocketTypesObj: { [key: string]: number } = rocketTypesArray.reduce(
+        (item, num) => (
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          // eslint-disable-next-line no-sequences
+          item[num] ? ++item[num] : (item[num] = 1), item
+        ),
         {}
       );
 
@@ -51,7 +62,7 @@ const RocketTypes: FC<RocketProps> = ({ rockets }) => {
         dataA.push({ type: key, value: rocketTypesObj[key] });
       }
 
-      setFinalData(dataA);
+      setDisplayData(dataA);
     }
   };
 
@@ -60,9 +71,9 @@ const RocketTypes: FC<RocketProps> = ({ rockets }) => {
   }, [isChecked, rockets]);
 
   const { Option, OptGroup } = Select;
-  const config = {
+  const configRocketTypes = {
     appendPadding: 10,
-    data: finalData,
+    data: displayData,
     angleField: 'value',
     color: ['#062c43', '#054569', '#5591a9', '#9ccddc', '#ced7e0'],
     colorField: 'type',
@@ -74,8 +85,11 @@ const RocketTypes: FC<RocketProps> = ({ rockets }) => {
       content: '{value}',
       style: {
         textAlign: 'center',
-        fontSize: 12,
+        fontSize: 10,
       },
+    },
+    legend: {
+      selected: isChecked,
     },
     interactions: [
       {
@@ -93,103 +107,35 @@ const RocketTypes: FC<RocketProps> = ({ rockets }) => {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
         },
+        content: '',
       },
     },
   };
   return (
-    <>
-      <Card className="text-center">
-        <Pie {...config} />
-        <>
-          <Select placeholder="Select Rocket Types" style={{ width: 180 }}>
-            <OptGroup>
-              {Object.keys(isChecked).map((item) => {
-                return (
-                  <Option key={item} value={item}>
-                    <Checkbox
-                      checked={isChecked[item]}
-                      onChange={() =>
-                        setIsChecked({
-                          ...isChecked,
-                          [item]: !isChecked[item],
-                        })
-                      }
-                    >
-                      {item}
-                    </Checkbox>
-                  </Option>
-                );
-              })}
-              {/* <Option>
+    <Card className="text-center">
+      <Pie {...configRocketTypes} />
+      <Select placeholder="Select Rocket Types" style={{ width: 180 }}>
+        <OptGroup>
+          {Object.keys(isChecked).map((item) => {
+            return (
+              <Option key={item} value={item}>
                 <Checkbox
-                  checked={isChecked.v11}
+                  checked={isChecked[item]}
                   onChange={() =>
                     setIsChecked({
                       ...isChecked,
-                      v11: !isChecked.v11,
+                      [item]: !isChecked[item],
                     })
                   }
                 >
-                  v1.1
+                  {item}
                 </Checkbox>
               </Option>
-              <Option>
-                <Checkbox
-                  checked={isChecked.FT}
-                  onChange={() =>
-                    setIsChecked({
-                      ...isChecked,
-                      FT: !isChecked.FT,
-                    })
-                  }
-                >
-                  FT
-                </Checkbox>
-              </Option>
-              <Option>
-                <Checkbox
-                  checked={isChecked.MerlinA}
-                  onChange={() =>
-                    setIsChecked({
-                      ...isChecked,
-                      MerlinA: !isChecked.MerlinA,
-                    })
-                  }
-                >
-                  Merlin A
-                </Checkbox>
-              </Option>
-              <Option>
-                <Checkbox
-                  checked={isChecked.v1}
-                  onChange={() =>
-                    setIsChecked({
-                      ...isChecked,
-                      v1: !isChecked.v1,
-                    })
-                  }
-                >
-                  v1.0
-                </Checkbox>
-              </Option>
-              <Option>
-                <Checkbox
-                  checked={isChecked.MerlinC}
-                  onChange={() =>
-                    setIsChecked({
-                      ...isChecked,
-                      MerlinC: !isChecked.MerlinC,
-                    })
-                  }
-                >
-                  Merlin C
-                </Checkbox>
-              </Option> */}
-            </OptGroup>
-          </Select>
-        </>
-      </Card>
-    </>
+            );
+          })}
+        </OptGroup>
+      </Select>
+    </Card>
   );
 };
 export default RocketTypes;

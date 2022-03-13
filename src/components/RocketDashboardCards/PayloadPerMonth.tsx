@@ -1,40 +1,52 @@
 import { Line } from '@ant-design/plots';
 import { FC } from 'react';
+import { GetLaunchesQuery } from '../../generated/graphql';
 import { monthDifference } from '../../helperFunctions';
+import { MonthsPayloadDataType } from '../../types';
 
 type PayloadProps = {
-  payloads: any;
+  payloads: GetLaunchesQuery['launchesPast'];
 };
 const PayloadPerMonth: FC<PayloadProps> = ({ payloads }) => {
-  // For this component, I have opted to look at the 12 month period before 2020.11.2021, as the SpaceX API has not been updated in the past 12 months.
+  // For this component, I have opted to look at the 12 month period before 2020.11.2021, as the provided SpaceX API has not been updated in the past 12 months.
 
-  const dateArray = payloads.filter((item, i) => {
-    return (
-      i !== 0 &&
-      monthDifference(
-        // finding last 12 months
-        new Date(item.launch_date_local),
-        new Date('2020-11-21T09:17:00-08:00')
-      ) < 13
-    );
-  });
-  const constructArr: any[] = [];
+  const dateArray: GetLaunchesQuery['launchesPast'] | [] = payloads?.filter(
+    (item, i) => {
+      return (
+        i !== 0 &&
+        monthDifference(
+          // finding last 12 months
+          new Date(item?.launch_date_local),
+          new Date('2020-11-21T09:17:00-08:00')
+        ) < 13
+      );
+    }
+  );
+  const constructArr: MonthsPayloadDataType[] = [];
   let payloadAmount = 0;
-  dateArray.map((item, i) => {
+  dateArray?.map((item, i) => {
     if (
-      monthDifference(
-        new Date(dateArray[i - 1]?.launch_date_local),
-        new Date(item.launch_date_local)
-      ) === -1
+      item?.rocket?.second_stage?.payloads?.length &&
+      item?.rocket?.second_stage?.payloads[0]?.payload_mass_kg
     ) {
-      constructArr.push({
-        month: item.launch_date_local.slice(0, 7), // slice tidying date format
-        value: payloadAmount,
-      });
-      payloadAmount = item.rocket.second_stage.payloads[0].payload_mass_kg;
-    } else {
-      payloadAmount =
-        payloadAmount + item.rocket.second_stage.payloads[0].payload_mass_kg;
+      if (
+        monthDifference(
+          new Date(dateArray[i - 1]?.launch_date_local),
+          new Date(item?.launch_date_local)
+        ) === -1
+      ) {
+        constructArr.push({
+          month: (item?.launch_date_local as string).slice(0, 7),
+          value: payloadAmount,
+        });
+
+        payloadAmount =
+          item?.rocket?.second_stage?.payloads[0]?.payload_mass_kg;
+      } else {
+        payloadAmount =
+          payloadAmount +
+          item?.rocket?.second_stage?.payloads[0]?.payload_mass_kg;
+      }
     }
   });
   const data = constructArr;

@@ -11,3 +11,5 @@ generates:
   ./graphql.schema.json:
     plugins:
       - 'introspection'
+config:
+  GetLaunchesQuery: T | null | undefined
