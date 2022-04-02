@@ -13,6 +13,8 @@ const FailureRates: FC<RocketProps> = ({ launches }) => {
   overallFailureRate =
     (launches.filter((item) => item?.launch_success === false).length * 100) /
     launches.length;
+  // eslint-disable-next-line no-console
+  console.log(overallFailureRate);
 
   // current failure rate approximated by years since 2015
   currentFailureRate =

@@ -9,7 +9,6 @@ type PayloadProps = {
 };
 const PayloadPerMonth: FC<PayloadProps> = ({ payloads }) => {
   // For this component, I have opted to look at the 12 month period before 2020.11.2021, as the provided SpaceX API has not been updated in the past 12 months.
-
   const dateArray: GetLaunchesQuery['launchesPast'] | [] = payloads?.filter(
     (item, i) => {
       return (

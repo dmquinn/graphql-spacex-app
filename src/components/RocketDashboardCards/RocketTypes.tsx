@@ -22,6 +22,7 @@ const RocketTypes: FC<RocketProps> = ({ rockets }) => {
   const [displayData, setDisplayData] = useState<DisplayDataType[]>([]);
   const rocketTypesArray: string[] = [];
 
+  // Does not need to be async
   const filterRocketData = async () => {
     const dataA = [];
     const initArray: GetLaunchesQuery['launches'] = []; // unsure of type
@@ -33,6 +34,7 @@ const RocketTypes: FC<RocketProps> = ({ rockets }) => {
         }
       })
       .map((x) => {
+        // eslint-disable-next-line no-console
         const output: GetLaunchesQuery['launches'] = rockets?.filter((item) => {
           if (item?.rocket?.rocket_type === x) {
             return item;

@@ -34,7 +34,6 @@ const routeObjects: RouteObject[] = [
       { path: ENTITY_OVERVIEW_ROUTE, element: <EntityOverview /> },
       { path: ENTITY_DETAIL_ROUTE, element: <EntityDetail /> },
       { path: ROCKET_DASHBOARD_ROUTE, element: <RocketDashboard /> },
-
       { path: '*', element: <NotFound /> },
     ],
   },
